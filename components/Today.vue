@@ -9,7 +9,7 @@
         <span class="text-2xl text-indigo-800">{{ count[2] }}</span
         >EXAMS
       </div>
-      <div v-if="!loading" class="h-full flex flex-col">
+      <div v-if="!loading" class="h-full flex flex-col text-xs xs:text-sm">
         <div
           :class="hasAx(axlist, currentsub, true)"
           class="onesub bg-indigo-400 h-20 flex items-center justify-center m-5 relative overflow-hidden"
@@ -55,7 +55,7 @@
                 class="bg-indigo-400 h-12 flex items-center justify-center mx-5"
                 :class="hasAx(axlist, subject.sub)"
               >
-                <div class="font-bold text-sm">{{ subject.sub }}</div>
+                <div class="font-bold">{{ subject.sub }}</div>
               </div>
             </div>
           </div>

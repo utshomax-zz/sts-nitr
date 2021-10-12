@@ -32,19 +32,19 @@
           placeholder="Assignment or Exam Topic.."
           required
         />
-        <div class="flex flex-col md:flex-row pt-2 md:pt-1">
-          <div class="w-full md:mr-2 border-0 border-b-2 border-gray-700 px-2 relative">
+        <div class="w-full mt-2 md:w-auto md:mr-2 border-0 border-b-2 border-gray-700">
             <input
             type="datetime-local"
             v-model="axinp.date"
             name="date"
-            class="outline-none inpw md:mt-2"
+            class="w-full focus:outline-none"
             required
           />
           </div>
+        <div class="flex flex-col md:flex-row pt-1">
           <dropdown
             v-model="axinp.type"
-            class="w-full flex-1"
+            class="w-full flex-1 mr-1"
             :options="type_options"
             selected="Type"
           />
@@ -161,7 +161,7 @@ export default {
 
 <style>
 .inpw{
-  width: 100% !important;
+  width: 100%;
   background-color: white;
 }
 </style>
