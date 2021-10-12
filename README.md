@@ -1,6 +1,15 @@
 # STS-NITR
 *This project was my very first one while learning nuxtjs/vuejs.You may find some unpolished code here and there.If you still want to contribute then welcome !*
 
+
+## Where is the backend ?
+Backend repo is not public yet.
+
+Using the API
+You need to send a jwt token as auth bearer.( token is sent with a successful login request )
+
+
+
 ## Build Setup
 
 ```bash
