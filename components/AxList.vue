@@ -36,8 +36,9 @@
           <input
             type="datetime-local"
             v-model="axinp.date"
+            placeholder="Due datetime"
             name="date"
-            class="border-0 border-b-2 border-gray-700 md:mr-2 min-w-full w-full outline-none"
+            class="border-0 border-b-2 border-gray-700 mr-2 min-w-full w-full outline-none"
             required
           />
           <dropdown

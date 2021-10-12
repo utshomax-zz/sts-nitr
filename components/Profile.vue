@@ -1,5 +1,6 @@
 <template>
-  <div class="h-full flex flex-col text-gray-700 md:m-10 md:shadow-md">
+  <div class="h-full flex flex-col text-gray-700 md:m-10 md:shadow-md overflow-auto">
+      <div class="minscrn">
       <div class="text-xl m-2 p-3 font-medium uppercase flex items-center justify-between bg-gray-100 shadow">
         <span >{{user.roll}} <br> {{user.name}} </span>
         <span class="flex">
@@ -36,6 +37,7 @@
          
       </div>
       </div>
+    </div>
     </div>
 </template>
 
