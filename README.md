@@ -8,7 +8,7 @@ Backend repo is not public yet.
 
 **🤵Developer**
 
-BaseURI can be found [here](#baseuri)
+BaseURI can be found <a href="#baseuri">here</a> 
 
 **1.** Using the API 
 You need to send a jwt token as auth bearer.( token is sent with a successful login request )
