@@ -8,7 +8,7 @@ Backend repo is not public yet.
 
 **🤵Developer**
 
-BaseURI can be found <a href="#baseuri">here</a> 
+BaseURI can be found [here](#BASEURI)
 
 **1.** Using the API 
 You need to send a jwt token as auth bearer.( token is sent with a successful login request )
@@ -68,7 +68,10 @@ Response:JSON
 }
 ```
 
-## baseuri: https://api-sts-nitr.app.madvertlabs.com
+### BASEURI
+``
+https://api-sts-nitr.app.madvertlabs.com
+``
 ## Build Setup
 
 ```bash
