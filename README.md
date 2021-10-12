@@ -1,4 +1,5 @@
-# sts
+# STS-NITR
+*This project was my very first one while learning nuxtjs/vuejs.You may find some unpolished code here and there.If you still want to contribute then welcome !*
 
 ## Build Setup
 
