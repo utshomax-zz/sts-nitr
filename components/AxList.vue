@@ -33,14 +33,17 @@
           required
         />
         <div class="flex flex-col md:flex-row pt-2 md:pt-1">
-          <input
+          <div class="w-full md:mr-2 border-0 border-b-2 border-gray-700 p-0 m-0">
+            <input
             type="datetime-local"
             v-model="axinp.date"
             placeholder="Due datetime"
             name="date"
-            class="border-0 border-b-2 border-gray-700 mr-2 min-w-full w-full outline-none"
+            class="outline-none w-full md:mt-2 inpw"
+            width="100"
             required
           />
+          </div>
           <dropdown
             v-model="axinp.type"
             class="w-full flex-1"
@@ -158,4 +161,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.inpw{
+  width: 100% !important;
+}
+</style>

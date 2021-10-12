@@ -95,15 +95,13 @@ export default {
     }
   },
   pwa: {
-    icon:{
-      purpose: ['any']
-    },
     meta: {
       mobileAppIOS:true,
       name:"STS-NITR",
     },
     manifest: {
       name: 'STS-NITR',
+      short_name:'STS-NITR',
       lang: 'en',
       useWebmanifestExtension: false
     }
