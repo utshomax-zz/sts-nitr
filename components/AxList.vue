@@ -33,14 +33,13 @@
           required
         />
         <div class="flex flex-col md:flex-row pt-2 md:pt-1">
-          <div class="w-full md:mr-2 border-0 border-b-2 border-gray-700 px-2">
+          <div class="w-full md:mr-2 border-0 border-b-2 border-gray-700 px-2 relative">
             <input
             type="datetime-local"
             v-model="axinp.date"
             placeholder="Due datetime"
             name="date"
-            class="outline-none w-full md:mt-2 inpw"
-            width="100"
+            class="outline-none inpw md:mt-2"
             required
           />
           </div>
@@ -164,11 +163,9 @@ export default {
 <style>
 .inpw{
   width: 100% !important;
-  min-width: 100%;
-  text-align: left;
-  background-color: transparent;
+  background-color: white;
 }
 .inpw:focus{
-  background-color: transparent;
+  background-color: white;
 }
 </style>
