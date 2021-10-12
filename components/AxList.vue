@@ -38,6 +38,7 @@
             v-model="axinp.date"
             name="date"
             class="w-full focus:outline-none"
+            step="any"
             required
           />
           </div>
@@ -138,7 +139,7 @@ export default {
   methods: {
     finedate(date) {
       let temp = new Date(date);
-      return temp.toDateString() + ' '+temp.toLocaleTimeString();
+      return temp.toDateString() + ' '+temp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     },
     addax: function() {
       if(this.axinp.subject && this.axinp.type){
