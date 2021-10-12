@@ -58,15 +58,17 @@
         ></span>
       </span>
     </div>
-    <div class="mx-2 h-auto flex-1 flex flex-col bg-gray-600 text-gray-200 p-2 overflow-hidden mb-16">
+    <div
+      class="mx-2 h-auto flex-1 flex flex-col bg-gray-600 text-gray-200 p-2 overflow-hidden mb-16"
+    >
       <span class="w-full text-center pt-8 h-1/12">ABOUT</span>
-      <div class="about p-3 h-6/12 overflow-auto">
-        STS-NITR is a web app for the student of NIT Rourkela to track there
-        personal and academic progress.It features task , assignment and exam
-        tracker. Also personalized provide real-time routine based on NIT time
-        table to make thair life easier.
+      <div class="about p-3 h-6/12 overflow-auto text-sm">
+        STS-NITR is a web app for the student of NIT Rourkela to track their
+        personal and academic progress. It features tasks, assignments and exam
+        trackers. Also, provide personalized real-time routine based on NITR
+        Central timetable and Holidays to make their life easier.
       </div>
-      <div class="md:relative flex-1 flex px-3 leading-none mt-2">
+      <div class="md:relative flex-1 flex px-3 leading-none mt-2 xs:text-sm text-xs">
         <span class="self-end">
           Version : Beta <br />
           Time zone: IST - India Standard Time <br />

@@ -33,7 +33,7 @@
           required
         />
         <div class="flex flex-col md:flex-row pt-2 md:pt-1">
-          <div class="w-full md:mr-2 border-0 border-b-2 border-gray-700 p-0 m-0">
+          <div class="w-full md:mr-2 border-0 border-b-2 border-gray-700 px-2">
             <input
             type="datetime-local"
             v-model="axinp.date"
@@ -164,5 +164,11 @@ export default {
 <style>
 .inpw{
   width: 100% !important;
+  min-width: 100%;
+  text-align: left;
+  background-color: transparent;
+}
+.inpw:focus{
+  background-color: transparent;
 }
 </style>
