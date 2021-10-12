@@ -37,7 +37,7 @@
             type="datetime-local"
             v-model="axinp.date"
             name="date"
-            class="border-0 border-b-2 border-gray-700 mr-2 w-full outline-none"
+            class="border-0 border-b-2 border-gray-700 md:mr-2 min-w-full w-full outline-none"
             required
           />
           <dropdown
@@ -49,7 +49,6 @@
           <dropdown
             v-model="axinp.subject"
             :options="subjects"
-            class="pl-1"
             selected="Select Subject"
           />
         </div>
@@ -109,7 +108,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 import Dropdown from "./Dropdown.vue";
 export default {
   components: { Dropdown },

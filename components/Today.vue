@@ -19,7 +19,7 @@
           >
             NOW
           </div>
-          <div class="font-bold text-white text-sm text-center leading-tight">
+          <div class="font-bold text-white text-xs xs:text-sm text-center leading-tight">
             <span v-if="isHoliday">
               <img class="h-10 mx-auto" src="meditation.png" alt="" />RELAX -
               {{ cause }} ! <br />
@@ -114,7 +114,7 @@ export default {
       cause: "",
       isHoliday: false,
       holidayspan: null,
-      selectedDate: "",
+      selectedDate: "DAY",
       user: null,
       isValid_c: false
     };
@@ -138,11 +138,8 @@ export default {
       this.dayCount = date.getDay();
       this.day = this.days[date.getDay()].toUpperCase();
     }
-    this.$store.dispatch("getinitState", this.day).then((res)=>{
-      res &&  this.holidaypass();
-    });
+    this.$store.dispatch("getinitState", this.day)
     //REFRESHING
-
     setInterval(() => {
       this.setcurrentsub();
     }, 300000);
@@ -152,13 +149,13 @@ export default {
   },
   watch: {
     'selectedDate': function(val) {
+      this.isHoliday = false;
       let sd = val.toUpperCase()
       if (sd != this.today) {
         this.currentsub = "Viewing Routine";
       } else {
         this.currentsub = "----";
       }
-      this.isHoliday = false;
       if (sd.toUpperCase() == "SUNDAY" || sd == "SATURDAY") {
         this.holidayspan = null;
         this.isHoliday = true;
@@ -170,10 +167,28 @@ export default {
           this.changeDay();
       }
     },
+    'overview':function(val){
+      console.log('overview called')
+       let day =this.selectedDate.toUpperCase()
+       if (day != this.today && day != "DAY") {
+         console.log(day)
+        let date = this.getNextDayOfTheWeek(day).toLocaleDateString()
+        console.log(date)
+        this.nextsubjects = val.slice(0);
+        this.presubjects = []
+        this.holidaypass(date,true)
+       }
+       else{
+         this.setcurrentsub()
+       }
+    }
   },
 
   methods: {
     setcurrentsub: function() {
+      if(this.isHoliday){
+        return
+      }
       this.presubjects = [];
       this.nextsubjects = [];
       var c_data = this.overview.slice(0);
@@ -192,6 +207,7 @@ export default {
         this.day != this.today
       )
         this.nextsubjects = c_data;
+        this.holidaypass();
     },
     isValid: function(date, t0, t1) {
       let s_t = date.toLocaleDateString();
@@ -257,15 +273,7 @@ export default {
     changeDay() {
       let day = this.selectedDate.toUpperCase();
       this.day = day;
-      this.$store.dispatch("getinitState", day).then(res => {
-        if (res && day != this.today) {
-        let date = this.getNextDayOfTheWeek(this.day).toLocaleDateString()
-        console.log(date)
-        this.nextsubjects = this.overview.slice(0);
-        this.presubjects = []
-        this.holidaypass(date,true)
-      }
-      });
+      this.$store.dispatch("getinitState", day)
     },
     getNextDayOfTheWeek(dayName, excludeToday = true, refDate = new Date()) {
     const dayOfWeek = ["sun","mon","tue","wed","thu","fri","sat"]

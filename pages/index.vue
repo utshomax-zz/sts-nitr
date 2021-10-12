@@ -13,6 +13,7 @@
       </div>
       <div class="pr-5 xs:text-sm text-xs tracking-tight font-extralight">{{topdatetime}}</div>
     </div>
+        <pull-down :onRefresh="onRefresh" :key="rendKey">
          <div
         v-if="!$device.isMobile"
         class="h-full grid md:grid-cols-3 overflow-auto"
@@ -35,6 +36,7 @@
           <profile v-show="active == 4" />
           </transition>
       </div>
+        </pull-down>
      </div>
 </div>
 </template>
@@ -51,14 +53,16 @@ let options = {
 };
 import AxList from "~/components/AxList.vue";
 import Profile from '~/components/Profile.vue';
+import PullDown from '~/components/PullDown.vue';
 import TaskList from "~/components/TaskList.vue";
 import Today from "~/components/Today.vue";
 export default {
-  components: { Today, TaskList, AxList, Profile, Profile },
+  components: { Today, TaskList, AxList, Profile, PullDown, Profile },
   data() {
     return {
       active: 0,
-      topdatetime: new Date().toLocaleString("en-US", options)
+      topdatetime: new Date().toLocaleString("en-US", options),
+      rendKey:0
     };
   },
    mounted() {
@@ -73,6 +77,9 @@ export default {
     });
   },
    methods: {
+      onRefresh: function(){
+      this.rendKey  = !this.rendKey
+    },
     to12format: function(time24) {
       const [sHours, minutes] = time24
         .match(/([0-9]{1,2}):([0-9]{2})/)
