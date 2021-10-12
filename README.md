@@ -68,7 +68,7 @@ Response:JSON
 }
 ```
 
-###baseuri: https://api-sts-nitr.app.madvertlabs.com
+### baseuri: https://api-sts-nitr.app.madvertlabs.com
 ## Build Setup
 
 ```bash
