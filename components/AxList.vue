@@ -37,7 +37,6 @@
             <input
             type="datetime-local"
             v-model="axinp.date"
-            placeholder="Due datetime"
             name="date"
             class="outline-none inpw md:mt-2"
             required
@@ -119,7 +118,7 @@ export default {
       axinp: {
         topic: "",
         subject: null,
-        date: null,
+        date: new Date().toISOString().slice(0, -1),
         type: null,
         done: false,
       },
@@ -163,9 +162,6 @@ export default {
 <style>
 .inpw{
   width: 100% !important;
-  background-color: white;
-}
-.inpw:focus{
   background-color: white;
 }
 </style>
