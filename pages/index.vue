@@ -9,7 +9,7 @@
   <div class="flex flex-col w-full h-full">
     <div class="header w-full h-14 flex items-center justify-between">
       <div class="pl-5 text-left font-bold">
-        <img class="h-6 mb-2 mr-1 inline md:hidden" src="logo2.png" alt="" srcset="">STS-NITR
+        <img class="h-6 mb-1 mr-1 inline md:hidden" src="logo2.png" alt="" srcset="">STS-NITR
       </div>
       <div class="pr-5 xs:text-sm text-xs tracking-tight font-extralight">{{topdatetime}}</div>
     </div>
