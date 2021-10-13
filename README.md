@@ -1,5 +1,77 @@
-# sts
+# STS-NITR
+*This project was my very first one while learning nuxtjs/vuejs.You may find some unpolished code here and there.If you still want to contribute then welcome !*
 
+
+## Where is the backend ?
+Backend repo is not public yet.
+
+
+**🤵Developer**
+
+BaseURI can be found [here](#BASEURI)
+
+**1.** Using the API 
+You need to send a jwt token as auth bearer.( token is sent with a successful login request )
+
+**SIGNUP**
+
+Method:POST
+```sh
+/user/create
+```
+Request Body
+```sh
+{
+   name:String,
+   pin:Number,
+   roll:String,
+   seq:String,
+   slotlist: Array
+}
+```
+Response:JSON
+
+```sh
+All data of created user
+```
+**LOGIN**
+
+Method: POST
+```sh
+/user/login
+```
+Response:JSON
+
+```sh
+{
+  roll:user roll,
+  name:user name,
+  seq:user seq,
+  pin:user pin
+}
+```
+**GET CURRENT USER SETRUP**
+
+Method: GET
+```sh
+/me/:day 
+#day can be any day of weak & should be uppercase ex: SUNDAY
+```
+Response:JSON
+
+```sh
+{
+  overview:Array #routine of today
+  slotlist:Array #user slotlist
+  axlist:Array #user assignment & exam list
+  tasklist:Array #user tasklist
+}
+```
+
+### BASEURI
+``
+https://api-sts-nitr.app.madvertlabs.com
+``
 ## Build Setup
 
 ```bash
