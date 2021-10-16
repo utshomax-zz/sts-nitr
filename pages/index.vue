@@ -66,10 +66,13 @@ export default {
     };
   },
    mounted() {
+     this.$store.dispatch("getinitState")
+     this.$store.dispatch("setHolidaysAct")
      this.active = 1
     setInterval(() => {
       this.topdatetime = new Date().toLocaleString("en-US", options);
     }, 60000);
+
   },
   created() {
     this.$nuxt.$on("changeNav", id => {

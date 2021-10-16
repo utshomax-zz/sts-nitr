@@ -24,38 +24,20 @@ export default {
     color: 'blue',
     height: '2px'
   },
-  //Dev conf - To be removed !
-  server: {
-    port: 8000 // default: 3000
-  },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['~/assets/css/style'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/vuex-persist', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    // https://go.nuxtjs.dev/tailwindcss
-    '@nuxtjs/tailwindcss',
-    '@nuxtjs/device',
-    '@nuxtjs/pwa'
-  ],
-
-  // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-    // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
-  ],
-
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.BASEURL || 'https://api-sts-nitr.app.madvertlabs.com'
+    baseURL: process.env.BASEURL || 'https://api-sts-nitr.app.madvertlabs.com'// 'http://localhost:5000'//https://api-sts-nitr.app.madvertlabs.com
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -89,11 +71,17 @@ export default {
           login: { url: '/user/login', method: 'post' },
           logout: false,
           user: { url: '/me', method: 'get' }
-        }
+        },
+        redirect: {
+          home: false
+        },    
       }
     }
   },
   pwa: {
+    icon: {
+      fileName: 'app-icon.png',
+    },
     meta: {
       mobileAppIOS:true,
       name:"STS-NITR",
@@ -102,7 +90,25 @@ export default {
       name: 'STS-NITR',
       short_name:'STS-NITR',
       lang: 'en',
-      useWebmanifestExtension: false
+      crossorigin: 'use-credentials',
+    },
+    workbox: {
+      clientsClaim: false
     }
-  }
+  },
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  buildModules: [
+    // https://go.nuxtjs.dev/tailwindcss
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/device',
+  ],
+
+  // Modules: https://go.nuxtjs.dev/config-modules
+  modules: [
+    // https://go.nuxtjs.dev/axios
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
+    '@nuxtjs/pwa'
+  ],
+
 }

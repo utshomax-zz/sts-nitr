@@ -4,9 +4,9 @@
       <div
         class="overviewtext w-full flex justify-evenly items-center pt-4 text-xs sm:text-sm md:text-base px-4 md:px-3 font-medium"
       >
-        <span class="text-2xl text-indigo-800">{{ count[0] }}</span> CLASSES
-        <span class="text-2xl text-indigo-800">{{ count[1] }}</span> ASSIGNMENT
-        <span class="text-2xl text-indigo-800">{{ count[2] }}</span
+        <span class="text-2xl text-indigo-800">{{ overview.length }}</span> CLASSES
+        <span class="text-2xl text-indigo-800">{{ count[0] }}</span> ASSIGNMENT
+        <span class="text-2xl text-indigo-800">{{ count[1] }}</span
         >EXAMS
       </div>
       <div v-if="!loading" class="h-full flex flex-col text-xs xs:text-sm">
@@ -20,10 +20,10 @@
             NOW
           </div>
           <div class="font-bold text-white text-xs xs:text-sm text-center leading-tight">
-            <span v-if="isHoliday">
+            <span v-if="holiday.isHoliday">
               <img class="h-10 mx-auto" src="meditation.png" alt="" />RELAX -
-              {{ cause }} ! <br />
-              <span style="font-size:10px">{{ this.holidayspan }}</span>
+              {{ holiday.cause }} ! <br />
+              <span style="font-size:10px">{{ holiday.holidayspan }}</span>
             </span>
             <span v-else>{{ currentsub }}</span>
           </div>
@@ -46,7 +46,7 @@
           >
             <div class="onesub mb-3">
               <div
-                :class="{ 'bg-green-100': isHoliday }"
+                :class="{ 'bg-green-100': holiday.isHoliday }"
                 class="timer h-4 bg-gray-800 ml-5 w-36 font-medium text-xs text-center"
               >
                 {{ subject.time }}
@@ -66,7 +66,7 @@
           >
             <div class="onesub mb-3">
               <div
-                :class="{ 'bg-green-100': isHoliday }"
+                :class="{ 'bg-green-100': holiday.isHoliday }"
                 class="timer h-4 bg-gray-800 ml-5 w-36 font-medium text-xs text-center"
               >
                 {{ subject.time }}
@@ -92,6 +92,7 @@
 import { mapState } from "vuex";
 import Dropdown from "./Dropdown.vue";
 import loader from "./loader.vue";
+let date = new Date();
 export default {
   components: { loader, Dropdown },
   data() {
@@ -109,84 +110,67 @@ export default {
         "Friday",
         "Saturday"
       ],
-      day: null,
-      today: "",
-      cause: "",
-      isHoliday: false,
-      holidayspan: null,
-      selectedDate: "DAY",
-      user: null,
-      isValid_c: false
+      selectedDate: "",
+      isValid_c: false,
+      holidayCheckDate: new Date(),
     };
   },
   computed: {
-    ...mapState(["overview", "count", "axlist", "loading"]),
+    //get todays routine
+    ...mapState([ "count", "axlist", "loading"]),
+    day(){
+        return this.days[this.dayCount].toUpperCase();
+    },
+    today(){
+      return this.days[date.getDay()].toUpperCase();
+    },
+    overview(){
+      return this.$store.getters["getTodayRoutine"](this.day)
+    },
     count() {
-      return this.$store.getters["getCount"];
+      return this.$store.getters["getCount"]
+    },
+    holiday(){
+      return this.$store.getters["getHoliday"](this.holidayCheckDate,this.day)
     }
   },
   mounted() {
-    let date = new Date();
-    let s_t = date.toLocaleDateString();
-    let i_t = s_t + " " + "07:00 PM";
-    let comp_time_1 = new Date(i_t);
-    var dayName = this.days[date.getDay()].toUpperCase();
-    this.day = dayName;
-    this.today = dayName;
-    if (comp_time_1.getTime() < date.getTime()) {
-      date.setDate(date.getDate() + 1);
-      this.dayCount = date.getDay();
-      this.day = this.days[date.getDay()].toUpperCase();
-    }
-    this.$store.dispatch("getinitState", this.day)
+    //check if it's 7 pm
+    this.checkfor7pm();
     //REFRESHING
+    this.setcurrentsub();
     setInterval(() => {
       this.setcurrentsub();
     }, 300000);
-    setTimeout(() => {
-      window.location.reload();
-    }, 3600000);
   },
   watch: {
     'selectedDate': function(val) {
-      this.isHoliday = false;
+       console.log(val)
       let sd = val.toUpperCase()
       if (sd != this.today) {
         this.currentsub = "Viewing Routine";
+        this.holidayCheckDate = this.getNextDayOfTheWeek(sd)
       } else {
         this.currentsub = "----";
+        this.holidayCheckDate = new Date();
       }
-      if (sd.toUpperCase() == "SUNDAY" || sd == "SATURDAY") {
-        this.holidayspan = null;
-        this.isHoliday = true;
-        this.cause = "It's " + val;
-        this.presubjects = []
-        this.nextsubjects =[]
-      }
-      else{
-          this.changeDay();
-      }
+      this.dayCount = this.days.indexOf(val)
     },
-    'overview':function(val){
-      console.log('overview called')
-       let day =this.selectedDate.toUpperCase()
-       if (day != this.today && day != "DAY") {
-         console.log(day)
-        let date = this.getNextDayOfTheWeek(day).toLocaleDateString()
-        console.log(date)
-        this.nextsubjects = val.slice(0);
-        this.presubjects = []
-        this.holidaypass(date,true)
-       }
-       else{
-         this.setcurrentsub()
-       }
+    'overview':function(){
+      this.setcurrentsub();
+    },
+    'holiday':function(val){
+      if(val.isHoliday){
+        this.nextsubjects = this.overview;
+        this.presubjects = [];
+      }
     }
   },
 
   methods: {
     setcurrentsub: function() {
-      if(this.isHoliday){
+      console.log("SETING CURRENT SUBJECT..")
+      if(this.holiday.isHoliday){
         return
       }
       this.presubjects = [];
@@ -207,48 +191,12 @@ export default {
         this.day != this.today
       )
         this.nextsubjects = c_data;
-        this.holidaypass();
     },
     isValid: function(date, t0, t1) {
       let s_t = date.toLocaleDateString();
       let i_t = new Date(s_t + " " + t0);
       let e_t = new Date(s_t + " " + t1);
       return i_t.getTime() <= date.getTime() && date.getTime() <= e_t.getTime();
-    },
-    holidaypass(date=null,isfromchangeday=false) {
-      fetch("https://strapi.app.madvertlabs.com/nitr-holidays")
-        .then(res => res.json())
-        .then(res => {
-          let holidays = res;
-          let today = date ? date : new Date().toLocaleDateString();
-          holidays.forEach(day => {
-            let i_day = new Date(day.s_date).toLocaleDateString();
-            if (day.single) {
-              if (i_day == today) {
-                this.isHoliday = true;
-                this.cause = day.NAME;
-              }
-            } else {
-              let dateTo = new Date(day.e_date).toLocaleDateString();
-              var d1 = i_day.split("/");
-              var d2 = dateTo.split("/");
-              var c = today.split("/");
-
-              var from = new Date(d1[2], parseInt(d1[0]) - 1, d1[1]);
-              var to = new Date(d2[2], parseInt(d2[0]) - 1, d2[1]);
-              var check = new Date(c[2], parseInt(c[0]) - 1, c[1]);
-              if (check >= from && check <= to) {
-                this.isHoliday = true;
-                this.cause = day.NAME;
-                this.holidayspan = from.toLocaleDateString('en-GB') + " - " + to.toLocaleDateString('en-GB');
-                if(!isfromchangeday){
-                    this.nextsubjects = this.overview.slice(0)
-                    this.presubjects = []
-                }
-              }
-            }
-          });
-        });
     },
     hasAx(axlist, sub, main = false) {
       let a = axlist.find(x => x.subject == sub && !x.done);
@@ -257,23 +205,29 @@ export default {
           "border-r-2 border-gray-700": a.type == "Assignment",
           "border-r-2 border-red-400": a.type == "Exam",
           "border-l-2 border-r-0": main,
-          "bg-green-100": this.isHoliday
+          "bg-green-100": this.holiday.isHoliday
         };
       }
-      if (main && this.isHoliday) {
+      if (main && this.holiday.isHoliday) {
         return {
-          "bg-green-300": this.isHoliday
+          "bg-green-300": this.holiday.isHoliday
         };
       } else {
         return {
-          "bg-green-100": this.isHoliday
+          "bg-green-100": this.holiday.isHoliday
         };
       }
     },
-    changeDay() {
-      let day = this.selectedDate.toUpperCase();
-      this.day = day;
-      this.$store.dispatch("getinitState", day)
+    checkfor7pm() {
+      let date = new Date();
+      let time = date.toLocaleTimeString();
+      let time_split = time.split(":");
+      let hour = parseInt(time_split[0]);
+      let min = parseInt(time_split[1]);
+      if (hour >= 7 && min >= 0) {
+        let c = this.dayCount > 6 ? 0 : this.dayCount + 1;
+        this.selectedDate = this.days[c];
+      }
     },
     getNextDayOfTheWeek(dayName, excludeToday = true, refDate = new Date()) {
     const dayOfWeek = ["sun","mon","tue","wed","thu","fri","sat"]

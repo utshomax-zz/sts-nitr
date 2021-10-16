@@ -3,7 +3,7 @@
     class=" h-14 fixed bottom-0 inset-x-0 bg-indigo-400 opacity-90 flex justify-between items-center text-sm text-indigo-800 uppercase"
   >
     <div
-      class="w-full block transition duration-300"
+      class="w-full block transition duration-300 ntaph"
       :class="{'text-white': selected==1 }"
       @click="makeActive(1)"
     >
@@ -19,7 +19,7 @@
       </svg>
     </div>
     <div
-      class="w-full block transition duration-300"
+      class="w-full block transition duration-300 ntaph"
       :class="{'text-white': selected==2 }"
       @click="makeActive(2)"
     >
@@ -37,7 +37,7 @@
       </svg>
     </div>
     <div
-      class="w-full block transition duration-300"
+      class="w-full block transition duration-300 ntaph"
       :class="{'text-white': selected==3 }"
       @click="makeActive(3)"
     >
@@ -56,7 +56,7 @@
       </svg>
     </div>
     <div
-      class="w-full block transition duration-300"
+      class="w-full block transition duration-300 ntaph"
       :class="{'text-white': selected==4 }"
       @click="makeActive(4)"
     >
@@ -103,4 +103,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.ntaph{
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+</style>
