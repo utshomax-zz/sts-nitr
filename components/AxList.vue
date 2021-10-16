@@ -23,7 +23,7 @@
       <div class="w-full text-center pt-2 text-md font-medium">
         Assignments & Exams
       </div>
-      <form v-show="isopen" class=" inp p-3 inline" @submit.prevent="addax">
+      <form v-show="isopen" :class="{'text-gray-500':$nuxt.isOffline}" class=" inp p-3 inline" @submit.prevent="addax">
         <input
           v-model="axinp.topic"
           class="focus:outline-none border-b-2 w-full border-indigo-900"
@@ -55,8 +55,8 @@
             selected="Select Subject"
           />
         </div>
-        <div class="block text-center mt-3 text-white">
-          <button type="submit" class=" text-sm  font-medium bg-indigo-500 p-2 m-1">
+        <div class="block text-center mt-3 text-white" >
+          <button type="submit" :disabled="$nuxt.isOffline" :class="{'bg-gray-500':$nuxt.isOffline}" class=" text-sm  font-medium bg-indigo-500 p-2 m-1">
             WELL..SHIT !
           </button>
         </div>

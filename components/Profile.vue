@@ -63,12 +63,14 @@
     >
       <span class="w-full text-center pt-8 h-1/12">ABOUT</span>
       <div class="about p-3 h-6/12 overflow-auto text-sm">
-        STS-NITR is a web app for the student of NIT Rourkela to track their
-        personal and academic progress. It features tasks, assignments and exam
-        trackers. Also, provide personalized real-time routine based on NITR
-        Central timetable and Holidays to make their life easier.
+        STS-NITR is a web app for the students of NIT Rourkela to track their
+        personal and academic progress. It features tasks, assignments, and exam
+        trackers. Also, It provides a personalized real-time routine based on
+        NITR Central timetable and Holidays to make their life easier.
       </div>
-      <div class="md:relative flex-1 flex px-3 leading-none mt-2 xs:text-sm text-xs">
+      <div
+        class="md:relative flex-1 flex px-3 leading-none mt-2 xs:text-sm text-xs"
+      >
         <span class="self-end">
           Version : Beta <br />
           Time zone: IST - India Standard Time <br />
@@ -76,10 +78,15 @@
           <br />
           <br />
           Design and Developed by - <br />
-          <a
+          <!-- <a
             href="https://github.com/utshomax"
             class="font-medium text-sm text-purple-400"
             target="_blank"
+            >UTSHOMAX</a
+          > -->
+           <a
+            href=""
+            class="font-medium text-sm text-purple-400"
             >UTSHOMAX</a
           >
         </span>

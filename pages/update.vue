@@ -53,6 +53,8 @@
       </div>
        <button
               type="submit"
+              :disabled="$nuxt.isOffline"
+              :class="{'bg-gray-500':$nuxt.isOffline}"
               class="
               text-white
                 outline-none

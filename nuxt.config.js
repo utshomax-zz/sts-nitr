@@ -1,10 +1,6 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   target: 'static',
-  loading: {
-    continuous: true
-  },
-
   head: {
     title: 'STS - NIT Rourkela',
     htmlAttrs: {
@@ -22,14 +18,15 @@ export default {
   },
   loading: {
     color: 'blue',
-    height: '2px'
+    height: '3px',
+    continuous: true
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['~/assets/css/style'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/vuex-persist', ssr: false }
+    { src: '~/plugins/vuex-persist', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

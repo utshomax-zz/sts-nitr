@@ -5,7 +5,7 @@
         class="overviewtext w-full flex justify-evenly items-center pt-4 text-xs sm:text-sm md:text-base px-4 md:px-3 font-medium"
       >
         <span class="text-2xl text-indigo-800">{{ overview.length }}</span> CLASSES
-        <span class="text-2xl text-indigo-800">{{ count[0] }}</span> ASSIGNMENT
+        <span class="text-2xl text-indigo-800">{{ count[0] }}</span> ASSIGNMENTS
         <span class="text-2xl text-indigo-800">{{ count[1] }}</span
         >EXAMS
       </div>
@@ -145,15 +145,6 @@ export default {
   },
   watch: {
     'selectedDate': function(val) {
-       console.log(val)
-      let sd = val.toUpperCase()
-      if (sd != this.today) {
-        this.currentsub = "Viewing Routine";
-        this.holidayCheckDate = this.getNextDayOfTheWeek(sd)
-      } else {
-        this.currentsub = "----";
-        this.holidayCheckDate = new Date();
-      }
       this.dayCount = this.days.indexOf(val)
     },
     'overview':function(){
@@ -170,6 +161,17 @@ export default {
   methods: {
     setcurrentsub: function() {
       console.log("SETING CURRENT SUBJECT..")
+      let sd = this.selectedDate.toUpperCase()
+      if (sd != this.today) {
+        this.presubjects = []
+        this.nextsubjects = this.overview.slice(0)
+        this.currentsub = "Viewing Routine";
+        this.holidayCheckDate = this.getNextDayOfTheWeek(sd)
+        return
+      } else {
+        this.currentsub = "----";
+        this.holidayCheckDate = new Date();
+      }
       if(this.holiday.isHoliday){
         return
       }
@@ -224,8 +226,10 @@ export default {
       let time_split = time.split(":");
       let hour = parseInt(time_split[0]);
       let min = parseInt(time_split[1]);
-      if (hour >= 7 && min >= 0) {
-        let c = this.dayCount > 6 ? 0 : this.dayCount + 1;
+      let apm = time_split[2].split(' ')[1]
+      console.log(time_split)
+      if (hour >= 7 && min >= 0 && apm == 'PM') {
+        let c = this.dayCount >= 6 ? 0 : this.dayCount + 1;
         this.selectedDate = this.days[c];
       }
     },

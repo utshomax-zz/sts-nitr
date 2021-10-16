@@ -14,6 +14,7 @@
       <div class="pr-5 xs:text-sm text-xs tracking-tight font-extralight">{{topdatetime}}</div>
     </div>
         <pull-down :onRefresh="onRefresh" :key="rendKey">
+          <is-ofline/>
          <div
         v-if="!$device.isMobile"
         class="h-full grid md:grid-cols-3 overflow-auto"
@@ -81,7 +82,8 @@ export default {
   },
    methods: {
       onRefresh: function(){
-      this.rendKey  = !this.rendKey
+      this.$store.dispatch("getinitState")
+      this.$store.dispatch("setHolidaysAct")
     },
     to12format: function(time24) {
       const [sHours, minutes] = time24

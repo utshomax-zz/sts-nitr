@@ -1,43 +1,40 @@
 <template>
-  <div class="flex h-screen bg-indigo-600">
+  <div class="flex h-screen bg-indigo-400">
     <div
-      class="w-full mx-3 m-auto md:mx-auto bg-indigo-100 rounded p-5 md:max-w-md"
+      class="w-full mx-4 m-auto md:mx-auto bg-white rounded p-5 md:max-w-md"
     >
       <header class="text-center mb-3">
         <img class="w-16 mx-auto md:w-20" src="icon3.svg" />
 
         <span class="text-medium font-medium mt-2">STS - NITR</span>
       </header>
-      <form @submit.prevent="nextsetup">
+      <form @submit.prevent="nextsetup" class="my-3">
         <div>
-          <label class="block mb-2 text-indigo-500" for="username"
-            >Name</label
-          >
+
           <input
             required
-            class="w-full p-2 mb-2 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300"
+            placeholder="Your Name"
+            class="w-full p-2 mb-4 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300"
             type="text"
             v-model="user.name"
             name="username"
           />
         </div>
         <div>
-          <label class="block mb-2 text-indigo-500" for="username"
-            >Roll No.</label
-          >
           <input
             required
-            class="w-full p-2 mb-2 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300"
+            placeholder="Your Roll No."
+            class="w-full p-2 mb-4 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300"
             type="text"
             v-model="user.roll"
             name="username"
           />
         </div>
         <div>
-          <label class="block mb-2 text-indigo-500" for="password">New PIN</label>
           <input
             required
-            class="text-center w-full p-2 mb-2 text-indigo-500 border-b-2 border-indigo-500 outline-none focus:bg-gray-300"
+            placeholder="New 5 digit PIN"
+            class="w-full p-2 mb-4 text-indigo-500 border-b-2 border-indigo-500 outline-none focus:bg-gray-300"
             v-model="user.pin"
             type="number"
             name="pin"
@@ -45,14 +42,11 @@
           />
         </div>
         <div class="relative">
-          <label class="block mb-2 text-indigo-500" for="password"
-            >Sequence</label
-          >
-          <dropdown hideborder selected="" class="mb-2 text-indigo-500 border-b-2 border-indigo-500 outline-none" :options="['TP','PT']" v-model="user.seq"/>
+          <dropdown hideborder selected="SEQUENCE" class="mb-5 border-b-2 border-indigo-500 outline-none" :options="['TP','PT']" v-model="user.seq"/>
         </div>
         <div>
           <button
-            class="w-full bg-indigo-500 hover:bg-indigo-400 text-white font-bold py-2 px-4 mb-6 rounded"
+            class="w-full bg-indigo-500 hover:bg-indigo-400 text-white font-bold py-2 px-4 mb-6 mt-2 rounded"
             type="submit"
           >
             NEXT
@@ -86,7 +80,7 @@ export default {
   },
   methods: {
     nextsetup: function() {
-      if (this.user.pin && this.user.seq !='') {
+      if (this.user.pin && this.user.seq !='SEQUENCE') {
         this.$emit("init_setup_done",this.user);
       } else {
         alert(

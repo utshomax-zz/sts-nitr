@@ -1,19 +1,21 @@
 <template>
-  <div class="flex h-screen bg-indigo-600">
-    <div class="w-full max-w-xs m-auto bg-indigo-100 rounded p-5 md:max-w-sm">
+  <div class="flex h-screen bg-indigo-400">
+    <div class="w-full max-w-xs m-auto rounded bg-white shadow p-6 md:max-w-sm">
       <header class="text-center mb-3">
         <img class="w-16 mx-auto md:w-20" src="icon3.svg" />
 
         <span class="text-medium font-medium mt-2">STS - NITR</span>
       </header>
-      <form @submit.prevent="userLogin">
+      <form @submit.prevent="userLogin" class="my-3">
+        <div v-if="iserror" class="text-center text-red-500 mb-2">
+          {{error}}
+        </div>
         <div>
-          <label class="block mb-2 text-indigo-500" for="username"
-            >Roll No.</label
-          >
+
           <input
+          placeholder="Your Roll No."
             required
-            class="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300"
+            class="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none "
             type="text"
             oninput="this.value = this.value.toUpperCase()"
             v-model="login.roll"
@@ -21,10 +23,10 @@
           />
         </div>
         <div>
-          <label class="block mb-2 text-indigo-500" for="password">PIN</label>
           <input
             required
-            class="text-center w-full p-2 mb-6 text-indigo-500 border-b-2 border-indigo-500 outline-none focus:bg-gray-300"
+            placeholder="Your PIN"
+            class=" w-full p-2 mb-8 text-indigo-500 border-b-2 border-indigo-500 outline-none "
             type="number"
             v-model="login.pin"
             name="pin"
@@ -33,7 +35,7 @@
         </div>
         <div>
           <button
-            class="w-full bg-indigo-500 hover:bg-indigo-400 text-white font-bold py-2 px-4 mb-6 rounded"
+            class="w-full bg-indigo-500 hover:bg-indigo-400 text-white font-bold py-2 px-4 mb-8 rounded"
             type="submit"
           >
             LOGIN
@@ -63,7 +65,8 @@ export default {
       login: {
         roll: "",
         pin: ""
-      }
+      },
+      iserror:false
     };
   },
   methods: {
@@ -74,11 +77,18 @@ export default {
         });
         this.$router.push("/")
       } catch (err) {
+        if(err.response.status==403){
+          this.iserror = true
+          this.error = "Incorrect Roll or PIN !"
+          setTimeout(() => {
+            this.iserror =false
+          }, 5000);
+        }
         console.log(err);
       }
     },
     showAlert(){
-      alert('Well ! it was a 5 degit pin. Try to remember...else ask help on descord(sts-nitr)!')
+      alert('Well ! It was a 5 degit pin. Try to remember 😑...else ask help on descord(sts-nitr)!')
     }
   }
 };
