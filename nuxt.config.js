@@ -90,7 +90,15 @@ export default {
       crossorigin: 'use-credentials',
     },
     workbox: {
-      clientsClaim: false
+      clientsClaim: false,
+      runtimeCaching: [
+        {
+            urlPattern: 'https://fonts.googleapis.com/.*',
+            handler: 'cacheFirst',
+            method: 'GET',
+            strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
+        }
+    ]
     }
   },
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
