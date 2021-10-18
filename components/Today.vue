@@ -35,7 +35,7 @@
             :selected="day"
             :options="days"
             class="max-w-xs"
-            v-model="selectedDate"
+            v-model="selectedDatename"
           />
         </div>
         <div class="shedules overflow-x-auto text-white">
@@ -110,7 +110,6 @@ export default {
         "Friday",
         "Saturday"
       ],
-      selectedDate: "",
       isValid_c: false,
       holidayCheckDate: new Date(),
     };
@@ -118,6 +117,14 @@ export default {
   computed: {
     //get todays routine
     ...mapState([ "count", "axlist", "loading"]),
+    selectedDatename: {
+      get() {
+        return this.days[this.dayCount];
+      },
+      set(val){
+        this.dayCount = this.days.indexOf(val);
+      }
+    },
     day(){
         return this.days[this.dayCount].toUpperCase();
     },
@@ -131,22 +138,20 @@ export default {
       return this.$store.getters["getCount"]
     },
     holiday(){
-      return this.$store.getters["getHoliday"](this.holidayCheckDate,this.day)
+      return this.$store.getters["getHoliday"](this.holidayCheckDate||new Date(),this.day)
     }
   },
   mounted() {
+    this.selectedDate = this.days[date.getDay()]
     //check if it's 7 pm
     this.checkfor7pm();
+    this.setcurrentsub()
     //REFRESHING
-    this.setcurrentsub();
     setInterval(() => {
       this.setcurrentsub();
     }, 300000);
   },
   watch: {
-    'selectedDate': function(val) {
-      this.dayCount = this.days.indexOf(val)
-    },
     'overview':function(){
       this.setcurrentsub();
     },
@@ -161,7 +166,7 @@ export default {
   methods: {
     setcurrentsub: function() {
       console.log("SETING CURRENT SUBJECT..")
-      let sd = this.selectedDate.toUpperCase()
+      let sd = this.selectedDatename.toUpperCase()
       if (sd != this.today) {
         this.presubjects = []
         this.nextsubjects = this.overview.slice(0)
@@ -178,9 +183,10 @@ export default {
       this.presubjects = [];
       this.nextsubjects = [];
       var c_data = this.overview.slice(0);
+      let dt = new Date();
       c_data.forEach((t, i) => {
         let time = t.time.split("-");
-        if (this.isValid(new Date(), time[0], time[1])) {
+        if (this.isValid(dt, time[0].split(':'), time[1].split(':'))) {
           this.isValid_c = true;
           this.currentsub = t.sub;
           this.nextsubjects = c_data.slice(i + 1);
@@ -195,10 +201,24 @@ export default {
         this.nextsubjects = c_data;
     },
     isValid: function(date, t0, t1) {
-      let s_t = date.toLocaleDateString();
-      let i_t = new Date(s_t + " " + t0);
-      let e_t = new Date(s_t + " " + t1);
-      return i_t.getTime() <= date.getTime() && date.getTime() <= e_t.getTime();
+      let s_t = date.toLocaleTimeString([],{hour12:true});
+      let time_split = s_t.split(":");
+      let h0 =parseInt(t0[0]);
+      let h1 =parseInt(t1[0]);
+      let m0 =parseInt(t0[1].split(' ')[0]);
+      let m1 =parseInt(t1[1].split(' ')[0]);
+      let apm0 =t0[1].split(' ')[1];
+      let apm1 =t1[1].split(' ')[1];
+      let hour = parseInt(time_split[0]);
+      let min = parseInt(time_split[1]);
+      let apm = time_split[2].split(' ')[1].toUpperCase()
+      if(
+        (apm == apm0 && hour == h0 && min >= m0) ||
+        (apm == apm1 && hour == h1 && min <= m1)
+      ){
+        return true
+      }
+      return false
     },
     hasAx(axlist, sub, main = false) {
       let a = axlist.find(x => x.subject == sub && !x.done);
@@ -222,15 +242,14 @@ export default {
     },
     checkfor7pm() {
       let date = new Date();
-      let time = date.toLocaleTimeString();
+      let time = date.toLocaleTimeString([],{hour12:true});
       let time_split = time.split(":");
       let hour = parseInt(time_split[0]);
       let min = parseInt(time_split[1]);
-      let apm = time_split[2].split(' ')[1]
-      console.log(time_split)
+      let apm = time_split[2].split(' ')[1].toUpperCase()
       if (hour >= 7 && min >= 0 && apm == 'PM') {
         let c = this.dayCount >= 6 ? 0 : this.dayCount + 1;
-        this.selectedDate = this.days[c];
+        this.dayCount = c;
       }
     },
     getNextDayOfTheWeek(dayName, excludeToday = true, refDate = new Date()) {
