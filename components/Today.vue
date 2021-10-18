@@ -186,7 +186,7 @@ export default {
       let dt = new Date();
       c_data.forEach((t, i) => {
         let time = t.time.split("-");
-        if (this.isValid(dt, time[0].split(':'), time[1].split(':'))) {
+        if (this.isValid(dt, time[0], time[1])) {
           this.isValid_c = true;
           this.currentsub = t.sub;
           this.nextsubjects = c_data.slice(i + 1);
@@ -201,24 +201,11 @@ export default {
         this.nextsubjects = c_data;
     },
     isValid: function(date, t0, t1) {
-      let s_t = date.toLocaleTimeString([],{hour12:true});
-      let time_split = s_t.split(":");
-      let h0 =parseInt(t0[0]);
-      let h1 =parseInt(t1[0]);
-      let m0 =parseInt(t0[1].split(' ')[0]);
-      let m1 =parseInt(t1[1].split(' ')[0]);
-      let apm0 =t0[1].split(' ')[1];
-      let apm1 =t1[1].split(' ')[1];
-      let hour = parseInt(time_split[0]);
-      let min = parseInt(time_split[1]);
-      let apm = time_split[2].split(' ')[1].toUpperCase()
-      if(
-        (apm == apm0 && hour == h0 && min >= m0) ||
-        (apm == apm1 && hour == h1 && min <= m1)
-      ){
-        return true
-      }
-      return false
+      let {h:h1,m:m1} =this.ct24(t0);
+      let {h:h2,m:m2} =this.ct24(t1);
+      var h = date.getHours();
+      var m = date.getMinutes();
+      return (h1 < h || h1 == h && m1 <= m) && (h < h2 || h == h2 && m <= m2);
     },
     hasAx(axlist, sub, main = false) {
       let a = axlist.find(x => x.subject == sub && !x.done);
@@ -260,7 +247,19 @@ export default {
     refDate.setDate(refDate.getDate() + +!!excludeToday + 
                     (dayOfWeek + 7 - refDate.getDay() - +!!excludeToday) % 7);
     return refDate;
-    }
+    },
+    ct24(time12h) {
+      const [ time, modifier ] = time12h.split(' ');
+      let [ hours, minutes ] = time.split(':');
+      if (hours === '12') {
+        hours = '00';
+      }
+      if (modifier === 'PM') {
+        hours = parseInt(hours, 10) + 12;
+      }
+      return {h: parseInt(hours), m: parseInt(minutes)};
+      //return hours + ':' + minutes;
+    },
   }
 };
 </script>
